@@ -122,18 +122,37 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Glowing button */
-/* enhance btn-glow for primary CTA */
 .btn-glow {
   position: relative;
   overflow: hidden;
 }
-
-/* shine sweep */
 .btn-glow::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  left:-120%;
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(16, 185, 129, 0.6), rgba(139, 92, 246, 0.6));
+  filter: blur(14px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.btn-glow:hover::before { opacity: 1; }
+
+/* ===== CTA SUPER (enhances your existing Tailwind CTA) ===== */
+/* Works together with btn-glow (no pseudo-element conflict) */
+.btn-glow.cta-super {
+  animation: cta-pulse 1.6s ease-out infinite;
+  transition:
+    transform .25s cubic-bezier(.4,0,.2,1),
+    box-shadow .25s cubic-bezier(.4,0,.2,1);
+}
+
+/* shine sweep uses ::after (btn-glow already uses ::before) */
+.btn-glow.cta-super::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  left: -120%;
   background: linear-gradient(
     115deg,
     transparent 30%,
@@ -144,28 +163,55 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
 }
 
-/* halo */
-.btn-glow::after {
-  content:"";
-  position:absolute;
-  inset:-6px;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(96,165,250,.35),
-    transparent 70%
-  );
-  opacity:0;
-  transition: opacity .3s ease;
-  z-index:-1;
+/* arrow motion */
+.btn-glow.cta-super .cta-arrow svg {
+  display: inline-block;
+  transition: transform .25s ease;
 }
 
-.btn-glow:not(:disabled):hover::before {
-  left:120%;
-  transition-delay:.08s;
+/* hover (only when enabled) */
+.btn-glow.cta-super:not(:disabled):hover {
+  animation-play-state: paused;
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 40px rgba(37,99,235,.45),
+    0 0 0 1px rgba(255,255,255,.15) inset;
 }
 
-.btn-glow:not(:disabled):hover::after {
-  opacity:1;
+.btn-glow.cta-super:not(:disabled):hover::after {
+  left: 120%;
+  transition-delay: .08s;
+}
+
+.btn-glow.cta-super:not(:disabled):hover .cta-arrow svg {
+  transform: translateX(4px);
+}
+
+/* active */
+.btn-glow.cta-super:not(:disabled):active {
+  transform: translateY(-1px) scale(.98);
+  box-shadow: 0 10px 24px rgba(37,99,235,.4);
+}
+
+/* keep pulse during loading/disabled; just change cursor */
+.btn-glow.cta-super:disabled {
+  cursor: not-allowed;
+}
+
+/* pulse animation */
+@keyframes cta-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37,99,235,.5); }
+  70% { box-shadow: 0 0 0 16px rgba(37,99,235,0); }
+  100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .btn-glow.cta-super { animation: none; }
+  .btn-glow.cta-super::after,
+  .btn-glow.cta-super .cta-arrow svg {
+    transition: none;
+  }
 }
 
 /* ===== DROPDOWN MENU (Desktop Nav) ===== */
@@ -177,13 +223,13 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
 }
 
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
   pointer-events: auto;
 }
-
 
 /* Search glow */
 .search-glow {
@@ -372,6 +418,10 @@ html { scroll-behavior: smooth; }
   transition:
     background-size 0.3s ease,
     color 0.2s ease;
+
+  /* ensure long URLs wrap */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .blog-content a:hover {
@@ -473,6 +523,10 @@ html { scroll-behavior: smooth; }
   border: 1px solid rgba(255,255,255,0.08);
   padding: 0.12rem 0.35rem;
   border-radius: 0.45rem;
+
+  /* help long URL-ish tokens */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .blog-content pre {
@@ -493,11 +547,13 @@ html { scroll-behavior: smooth; }
   display: block;
 }
 
-/* Images */
+/* Images (URL-based <img src="https://...">) */
 .blog-content img {
-  max-width: 100%;
-  height: auto;
   display: block;
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
   margin: 1.25rem auto;
   border-radius: 1rem;
   border: 1px solid var(--border-primary);
@@ -519,6 +575,7 @@ html { scroll-behavior: smooth; }
 @media (max-width: 640px) {
   .blog-content table {
     display: block;
+    max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -545,8 +602,6 @@ html { scroll-behavior: smooth; }
   background: color-mix(in srgb, var(--bg-secondary) 88%, black);
 }
 
-
-
 /* Official sources block */
 .official-sources {
   padding: 1rem 1.1rem;
@@ -562,23 +617,4 @@ html { scroll-behavior: smooth; }
 
 .official-sources a {
   color: var(--text-primary);
-}
-
-.cta-super {
-  animation: cta-pulse 1.6s ease-out infinite;
-  transition:
-    transform .25s cubic-bezier(.4,0,.2,1),
-    box-shadow .25s cubic-bezier(.4,0,.2,1);
-}
-
-.cta-super:not(:disabled):hover {
-  animation-play-state: paused;
-  transform: translateY(-3px);
-}
-.cta-super .cta-arrow svg {
-  transition: transform .25s ease;
-}
-
-.cta-super:not(:disabled):hover .cta-arrow svg {
-  transform: translateX(4px);
 }
