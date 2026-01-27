@@ -298,26 +298,29 @@ export default function HomePage() {
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-glow px-4 sm:px-8 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl flex items-center gap-2 shadow-lg shadow-blue-500/25 disabled:opacity-50 flex-shrink-0"
-                  >
-                    {loading ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span className="hidden sm:inline">Loading</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="hidden sm:inline">Check Building</span>
-                        <span className="sm:hidden">Check</span>
-                        <ChevronRight className="w-5 h-5" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
+                 <button
+  type="submit"
+  disabled={loading}
+  className="cta-super px-4 sm:px-8 py-3.5 rounded-xl flex items-center gap-2 disabled:opacity-50 flex-shrink-0"
+>
+  {loading ? (
+    <>
+      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+      <span className="hidden sm:inline">Loading</span>
+    </>
+  ) : (
+    <>
+      <span className="hidden sm:inline">Check Building</span>
+      <span className="sm:hidden">Check</span>
+
+      {/* wrap the icon so your .cta-super span animation applies */}
+      <span className="cta-arrow">
+        <ChevronRight className="w-5 h-5" />
+      </span>
+    </>
+  )}
+</button>
+
 
               {showDropdown && suggestions.length > 0 && (
                 <div className="autocomplete-dropdown animate-slide-up">
