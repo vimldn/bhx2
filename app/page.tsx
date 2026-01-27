@@ -298,7 +298,7 @@ export default function HomePage() {
                     />
                   </div>
 
-                 button
+               <button
   type="submit"
   disabled={loading}
   className="btn-glow cta-super px-4 sm:px-8 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl flex items-center gap-2 shadow-lg shadow-blue-500/25 disabled:opacity-50 flex-shrink-0"
@@ -307,7 +307,6 @@ export default function HomePage() {
     <>
       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
       <span className="hidden sm:inline">Loading</span>
-      <span className="sm:hidden">Loading</span>
     </>
   ) : (
     <>
