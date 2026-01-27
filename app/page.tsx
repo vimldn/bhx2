@@ -279,74 +279,75 @@ export default function HomePage() {
           {/* Search Box (wider) */}
           <div className="max-w-7xl mx-auto mb-10 w-full" ref={dropdownRef}>
             <form onSubmit={handleSubmit}>
-              <div className="search-glow bg-[var(--bg-card)] border border-[var(--border-primary)] rounded-2xl p-2">
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 flex items-center gap-2 sm:gap-3 px-2 sm:px-4 min-w-0">
-                    <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-muted)] flex-shrink-0" />
-                    <input
-                      type="text"
-                      value={query}
-                      onChange={(e) => {
-                        setQuery(e.target.value)
-                        setSelectedIndex(-1)
-                      }}
-                      onKeyDown={handleKeyDown}
-                      onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
-                      placeholder="Enter NYC address..."
-                      className="flex-1 py-3.5 bg-transparent text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none text-sm sm:text-lg min-w-0"
-                      disabled={loading}
-                    />
-                  </div>
+  <div className="search-glow bg-[var(--bg-card)] border border-[var(--border-primary)] rounded-2xl p-2">
+    <div className="flex items-center gap-2">
+      <div className="flex-1 flex items-center gap-2 sm:gap-3 px-2 sm:px-4 min-w-0">
+        <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-muted)] flex-shrink-0" />
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setSelectedIndex(-1)
+          }}
+          onKeyDown={handleKeyDown}
+          onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
+          placeholder="Enter NYC address..."
+          className="flex-1 py-3.5 bg-transparent text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none text-sm sm:text-lg min-w-0"
+          disabled={loading}
+        />
+      </div>
 
-                 <button
-  type="submit"
-  disabled={loading}
-  className="cta-super flex items-center gap-2 flex-shrink-0 disabled:opacity-50"
->
-  {loading ? (
-    <>
-      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-      <span className="hidden sm:inline">Loading</span>
-    </>
-  ) : (
-    <>
-      <span className="hidden sm:inline">Check Building</span>
-      <span className="sm:hidden">Check</span>
-      <span className="cta-arrow">
-        <ChevronRight className="w-5 h-5" />
-      </span>
-    </>
+      <button
+        type="submit"
+        disabled={loading}
+        className="cta-super flex items-center gap-2 flex-shrink-0 disabled:opacity-50"
+      >
+        {loading ? (
+          <>
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <span className="hidden sm:inline">Loading</span>
+          </>
+        ) : (
+          <>
+            <span className="hidden sm:inline">Check Building</span>
+            <span className="sm:hidden">Check</span>
+            <span className="cta-arrow">
+              <ChevronRight className="w-5 h-5" />
+            </span>
+          </>
+        )}
+      </button>
+    </div>
+  </div>
+
+  {showDropdown && suggestions.length > 0 && (
+    <div className="autocomplete-dropdown animate-slide-up">
+      {suggestions.map((s, i) => (
+        <div
+          key={s.bbl}
+          className={`autocomplete-item ${i === selectedIndex ? 'selected' : ''}`}
+          onClick={() => handleSelect(s)}
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-[var(--bg-hover)] rounded-lg flex items-center justify-center flex-shrink-0">
+              <Building2 size={18} className="text-blue-400" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="font-medium truncate">{s.address}</div>
+              <div className="text-sm text-[var(--text-muted)]">
+                {s.neighborhood ? `${s.neighborhood}, ` : ''}
+                {s.borough} {s.zipcode}
+                {s.units ? ` • ${s.units} units` : ''}
+              </div>
+            </div>
+            <ChevronRight size={16} className="text-[var(--text-muted)] flex-shrink-0" />
+          </div>
+        </div>
+      ))}
+    </div>
   )}
-</button>
-
-
-              {showDropdown && suggestions.length > 0 && (
-                <div className="autocomplete-dropdown animate-slide-up">
-                  {suggestions.map((s, i) => (
-                    <div
-                      key={s.bbl}
-                      className={`autocomplete-item ${i === selectedIndex ? 'selected' : ''}`}
-                      onClick={() => handleSelect(s)}
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-[var(--bg-hover)] rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Building2 size={18} className="text-blue-400" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium truncate">{s.address}</div>
-                          <div className="text-sm text-[var(--text-muted)]">
-                            {s.neighborhood ? `${s.neighborhood}, ` : ''}
-                            {s.borough} {s.zipcode}
-                            {s.units ? ` • ${s.units} units` : ''}
-                          </div>
-                        </div>
-                        <ChevronRight size={16} className="text-[var(--text-muted)] flex-shrink-0" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </form>
+</form>
           </div>
 
           {/* Stats row */}
