@@ -315,10 +315,51 @@ html { scroll-behavior: smooth; }
   font-size: 1.05rem;
   letter-spacing: 0.01em;
   color: var(--text-secondary);
+
+  /* Mobile safety */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 @media (min-width: 768px) {
   .blog-content { font-size: 1.1rem; }
+}
+
+/* Mobile: improve readability + prevent "wall of text" */
+@media (max-width: 640px) {
+  .blog-content {
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .blog-content p {
+    margin: 0.85rem 0;
+  }
+
+  .blog-content h2 {
+    font-size: 1.5rem;
+    margin-top: 1.7rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .blog-content h3 {
+    font-size: 1.25rem;
+    margin-top: 1.35rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .blog-content h4 {
+    font-size: 1.05rem;
+    margin-top: 1.1rem;
+    margin-bottom: 0.45rem;
+  }
+
+  /* Inline code can wrap on small screens */
+  .blog-content code {
+    white-space: normal;
+  }
 }
 
 /* Avoid extra whitespace at the very top/bottom */
@@ -535,6 +576,15 @@ html { scroll-behavior: smooth; }
   background: var(--bg-secondary);
 }
 
+/* Mobile table safety */
+@media (max-width: 640px) {
+  .blog-content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 .blog-content th,
 .blog-content td {
   padding: 0.8rem 0.95rem;
@@ -555,6 +605,8 @@ html { scroll-behavior: smooth; }
 .blog-content tbody tr:nth-child(even) td {
   background: color-mix(in srgb, var(--bg-secondary) 88%, black);
 }
+
+
 
 /* Official sources block */
 .official-sources {
