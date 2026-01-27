@@ -301,7 +301,7 @@ export default function HomePage() {
                  <button
   type="submit"
   disabled={loading}
-  className="cta-super px-4 sm:px-8 py-3.5 rounded-xl flex items-center gap-2 disabled:opacity-50 flex-shrink-0"
+  className="cta-super flex items-center gap-2 flex-shrink-0 disabled:opacity-50"
 >
   {loading ? (
     <>
@@ -312,8 +312,6 @@ export default function HomePage() {
     <>
       <span className="hidden sm:inline">Check Building</span>
       <span className="sm:hidden">Check</span>
-
-      {/* wrap the icon so your .cta-super span animation applies */}
       <span className="cta-arrow">
         <ChevronRight className="w-5 h-5" />
       </span>
