@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronLeft } from 'lucide-react'
-import { getAllPosts, getPostBySlug, getRelatedPosts } from '@/lib/blog-utils'
+import { getAllPosts, getPostBySlug } from '@/lib/blog-utils'
 import BlogSidebar from '@/components/BlogSidebar'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -22,8 +22,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = getPostBySlug(params.slug)
   if (!post) return notFound()
-
-  const related = getRelatedPosts(post.slug, 4)
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
@@ -71,21 +69,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             ) : null}
 
             <div className="blog-content" dangerouslySetInnerHTML={{ __html: post.html }} />
-
-
-            {related.length ? (
-              <div className="mt-10">
-                <h2 className="text-2xl font-black mb-4">Related posts</h2>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {related.map((p) => (
-                    <Link key={p.slug} href={`/blog/${p.slug}`} className="card p-5 hover:bg-[var(--bg-hover)] transition">
-                      <div className="font-bold mb-2">{p.title}</div>
-                      <div className="text-sm text-[var(--text-secondary)] line-clamp-3">{p.excerpt}</div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ) : null}
           </div>
 
           <BlogSidebar currentSlug={post.slug} />
