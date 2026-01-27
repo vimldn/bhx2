@@ -15,6 +15,10 @@ const spaceMono = Space_Mono({
   display: 'swap',
   variable: '--font-space-mono',
 })
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   title: 'Building Health X | NYC Building Research & Apartment Check',
