@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 import { Inter, Space_Mono } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
@@ -15,12 +15,6 @@ const spaceMono = Space_Mono({
   display: 'swap',
   variable: '--font-space-mono',
 })
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-}
 
 export const metadata: Metadata = {
   title: 'Building Health X | NYC Building Research & Apartment Check',
@@ -40,6 +34,11 @@ export const metadata: Metadata = {
     'heat complaints NYC',
     'rent stabilized apartments',
   ],
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
   icons: {
     icon: '/icon.png',
     shortcut: '/favicon.ico',
@@ -50,34 +49,35 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* OK to render Scripts here in the layout tree */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-88LHQSVE0N"
-        strategy="beforeInteractive"
-      />
-      <Script id="google-analytics" strategy="beforeInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-88LHQSVE0N');
-        `}
-      </Script>
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-88LHQSVE0N"
+          strategy="beforeInteractive"
+        />
+        <Script id="google-analytics" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-88LHQSVE0N');
+          `}
+        </Script>
 
-      <Script id="theme-script" strategy="beforeInteractive">
-        {`
-          (function() {
-            try {
-              var theme = localStorage.getItem('theme');
-              if (theme === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-              } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-              }
-            } catch (e) {}
-          })();
-        `}
-      </Script>
+        <Script id="theme-script" strategy="beforeInteractive">
+          {`
+            (function() {
+              try {
+                var theme = localStorage.getItem('theme');
+                if (theme === 'light') {
+                  document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                }
+              } catch (e) {}
+            })();
+          `}
+        </Script>
+      </head>
 
       <body className={`${inter.variable} ${spaceMono.variable} font-sans min-h-screen antialiased`}>
         {children}
