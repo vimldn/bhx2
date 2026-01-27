@@ -122,20 +122,51 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Glowing button */
+/* enhance btn-glow for primary CTA */
 .btn-glow {
   position: relative;
   overflow: hidden;
 }
+
+/* shine sweep */
 .btn-glow::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(16, 185, 129, 0.6), rgba(139, 92, 246, 0.6));
-  filter: blur(14px);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  content:"";
+  position:absolute;
+  inset:0;
+  left:-120%;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255,255,255,.35),
+    transparent 70%
+  );
+  transition: left .6s ease;
+  pointer-events: none;
 }
-.btn-glow:hover::before { opacity: 1; }
+
+/* halo */
+.btn-glow::after {
+  content:"";
+  position:absolute;
+  inset:-6px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(96,165,250,.35),
+    transparent 70%
+  );
+  opacity:0;
+  transition: opacity .3s ease;
+  z-index:-1;
+}
+
+.btn-glow:not(:disabled):hover::before {
+  left:120%;
+  transition-delay:.08s;
+}
+
+.btn-glow:not(:disabled):hover::after {
+  opacity:1;
+}
 
 /* ===== DROPDOWN MENU (Desktop Nav) ===== */
 .dropdown-menu {
@@ -533,102 +564,21 @@ html { scroll-behavior: smooth; }
   color: var(--text-primary);
 }
 
-/* ===== CTA SUPER (homepage button) ===== */
-button.cta-super {
-  position: relative;
-  overflow: hidden;
-
+.cta-super {
   animation: cta-pulse 1.6s ease-out infinite;
-
   transition:
     transform .25s cubic-bezier(.4,0,.2,1),
     box-shadow .25s cubic-bezier(.4,0,.2,1);
 }
 
-/* shine sweep */
-button.cta-super::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  left:-120%;
-  background:linear-gradient(
-    115deg,
-    transparent 30%,
-    rgba(255,255,255,.35),
-    transparent 70%
-  );
-  transition:left .6s ease;
-  pointer-events:none;
+.cta-super:not(:disabled):hover {
+  animation-play-state: paused;
+  transform: translateY(-3px);
+}
+.cta-super .cta-arrow svg {
+  transition: transform .25s ease;
 }
 
-/* halo glow */
-button.cta-super::after{
-  content:"";
-  position:absolute;
-  inset:-6px;
-  background:radial-gradient(circle at 50% 50%,
-    rgba(96,165,250,.35),
-    transparent 70%
-  );
-  opacity:0;
-  transition:opacity .3s ease;
-  z-index:-1;
-}
-
-/* arrow / icon motion */
-button.cta-super .cta-arrow svg{
-  transition:transform .25s ease;
-}
-
-/* hover (only when enabled) */
-button.cta-super:not(:disabled):hover{
-  animation-play-state:paused;
-  transform:translateY(-3px);
-  box-shadow:
-    0 18px 40px rgba(37,99,235,.45),
-    0 0 0 1px rgba(255,255,255,.15) inset;
-}
-
-button.cta-super:not(:disabled):hover::before{
-  left:120%;
-  transition-delay:.08s;
-}
-
-button.cta-super:not(:disabled):hover::after{
-  opacity:1;
-}
-
-button.cta-super:not(:disabled):hover .cta-arrow svg{
-  transform:translateX(4px);
-}
-
-/* active */
-button.cta-super:not(:disabled):active{
-  transform:translateY(-1px) scale(.98);
-  box-shadow:0 10px 24px rgba(37,99,235,.4);
-}
-
-/* keep pulse while loading/disabled, but no hover interactions */
-button.cta-super:disabled{
-  cursor:not-allowed;
-}
-
-/* focus */
-button.cta-super:focus-visible{
-  outline:2px solid rgba(96,165,250,.8);
-  outline-offset:3px;
-}
-
-/* pulse animation */
-@keyframes cta-pulse{
-  0%{ box-shadow:0 0 0 0 rgba(37,99,235,.5); }
-  70%{ box-shadow:0 0 0 16px rgba(37,99,235,0); }
-  100%{ box-shadow:0 0 0 0 rgba(37,99,235,0); }
-}
-
-/* reduced motion */
-@media (prefers-reduced-motion: reduce){
-  button.cta-super{ animation:none; }
-  button.cta-super::before,
-  button.cta-super .cta-arrow svg{ transition:none; }
+.cta-super:not(:disabled):hover .cta-arrow svg {
+  transform: translateX(4px);
 }
