@@ -138,28 +138,17 @@ h1, h2, h3, h4, h5, h6 {
 .btn-glow:hover::before { opacity: 1; }
 
 /* ===== SUPER CTA BUTTON ===== */
-.cta-super{
-  all: unset;
-  cursor: pointer;
-  padding: 16px 26px;
-  border-radius: 16px;
-  font-weight: 600;
-  color: #f8fafc;
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
+/* ===== CTA SUPER (ENHANCEMENT) ===== */
+.cta-super {
   position: relative;
   overflow: hidden;
-  display: inline-flex;
-  align-items: center;
-  gap: .35em;
 
-  /* idle pulse */
-  animation: cta-super-pulse 1.6s ease-out infinite;
+  /* idle pulse stays even during loading/disabled */
+  animation: cta-pulse 1.6s ease-out infinite;
 
-  /* motion */
   transition:
     transform .25s cubic-bezier(.4,0,.2,1),
-    box-shadow .25s cubic-bezier(.4,0,.2,1),
-    background .3s ease;
+    box-shadow .25s cubic-bezier(.4,0,.2,1);
 }
 
 /* shine sweep */
@@ -168,69 +157,73 @@ h1, h2, h3, h4, h5, h6 {
   position:absolute;
   inset:0;
   left:-120%;
-  background: linear-gradient(
+  background:linear-gradient(
     115deg,
     transparent 30%,
     rgba(255,255,255,.35),
     transparent 70%
   );
-  transition: left .6s ease;
-  pointer-events: none;
+  transition:left .6s ease;
+  pointer-events:none;
 }
 
-/* subtle glow halo */
+/* halo glow */
 .cta-super::after{
   content:"";
   position:absolute;
   inset:-6px;
-  background: radial-gradient(circle at 50% 50%,
+  background:radial-gradient(circle at 50% 50%,
     rgba(96,165,250,.35),
     transparent 70%
   );
   opacity:0;
-  transition: opacity .3s ease;
+  transition:opacity .3s ease;
   z-index:-1;
 }
 
-/* arrow motion */
-.cta-super span{
-  display:inline-block;
-  transition: transform .25s ease;
+/* only move the arrow (not spinner) */
+.cta-super .cta-arrow svg{
+  transition:transform .25s ease;
 }
 
-/* HOVER STATE */
-.cta-super:hover{
-  animation-play-state: paused;
-  transform: translateY(-3px);
+/* HOVER (only when not disabled) */
+.cta-super:not(:disabled):hover{
+  animation-play-state:paused;
+  transform:translateY(-3px);
   box-shadow:
     0 18px 40px rgba(37,99,235,.45),
     0 0 0 1px rgba(255,255,255,.15) inset;
 }
-.cta-super:hover::before{
-  left: 120%;
-  transition-delay: .08s;
+.cta-super:not(:disabled):hover::before{
+  left:120%;
+  transition-delay:.08s;
 }
-.cta-super:hover::after{ opacity:1; }
-.cta-super:hover span{ transform: translateX(4px); }
+.cta-super:not(:disabled):hover::after{ opacity:1; }
+.cta-super:not(:disabled):hover .cta-arrow svg{ transform:translateX(4px); }
 
 /* ACTIVE (click) */
-.cta-super:active{
-  transform: translateY(-1px) scale(.98);
-  box-shadow: 0 10px 24px rgba(37,99,235,.4);
+.cta-super:not(:disabled):active{
+  transform:translateY(-1px) scale(.98);
+  box-shadow:0 10px 24px rgba(37,99,235,.4);
+}
+
+/* disabled: no hover lift, but keep pulse */
+.cta-super:disabled{
+  cursor:not-allowed;
 }
 
 /* pulse animation */
-@keyframes cta-super-pulse{
-  0%{ box-shadow: 0 0 0 0 rgba(37,99,235,.5); }
-  70%{ box-shadow: 0 0 0 16px rgba(37,99,235,0); }
-  100%{ box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+@keyframes cta-pulse{
+  0%{ box-shadow:0 0 0 0 rgba(37,99,235,.5); }
+  70%{ box-shadow:0 0 0 16px rgba(37,99,235,0); }
+  100%{ box-shadow:0 0 0 0 rgba(37,99,235,0); }
 }
 
 /* accessibility */
 @media (prefers-reduced-motion: reduce){
   .cta-super{ animation:none; }
   .cta-super::before,
-  .cta-super span{
+  .cta-super .cta-arrow svg{
     transition:none;
   }
 }
