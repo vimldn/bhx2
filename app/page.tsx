@@ -311,7 +311,7 @@ export default function HomePage() {
                     ) : (
                       <>
                         <span className="hidden sm:inline">Check Building</span>
-                        <span className="sm:hidden">Check</span>
+                        <span className="inline sm:hidden">Check</span>
                         <span className="cta-arrow">
                           <ChevronRight className="w-5 h-5" />
                         </span>
@@ -524,7 +524,7 @@ export default function HomePage() {
               </h2>
               <p className="text-[var(--text-secondary)] text-lg mb-8 leading-relaxed">
                 Finding an apartment in New York City is already stressful enough. We've done the hard work of
-                aggregating data from <strong className="text-[var(--text-primary)]">55+ official NYC data sources</strong>. so
+                aggregating data from <strong className="text-[var(--text-primary)]">55+ official NYC data sources.</strong> So
                 you can make informed decisions in minutes, not hours.
               </p>
 
